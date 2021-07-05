@@ -293,7 +293,7 @@ namespace DBMod
                 Hook(funcToHook, new System.Action<IntPtr, IntPtr, IntPtr, bool>(OnAvatarInstantiated).Method.MethodHandle.GetFunctionPointer());
                 onAvatarInstantiatedDelegate = Marshal.GetDelegateForFunctionPointer<AvatarInstantiatedDelegate>(*(IntPtr*)funcToHook);
                 MelonLogger.Log(ConsoleColor.Blue, $"Hooked OnAvatarInstantiated? {((onAvatarInstantiatedDelegate != null) ? "Yes!" : "No: critical error!!")}");
-
+                
                 funcToHook = (IntPtr)typeof(NetworkManager).GetField("NativeMethodInfoPtr_Method_Public_Void_Player_0", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
                 Hook(funcToHook, new System.Action<IntPtr, IntPtr>(OnPlayerLeft).Method.MethodHandle.GetFunctionPointer());
                 onPlayerLeftDelegate = Marshal.GetDelegateForFunctionPointer<PlayerLeftDelegate>(*(IntPtr*)funcToHook);
@@ -455,6 +455,7 @@ namespace DBMod
                             APIUser.IsFriendsWith(avatar.transform.root.GetComponentInChildren<Player>().prop_APIUser_0.id)));
 
                     MelonLogger.Log(ConsoleColor.Blue, "New avatar loaded, added to avatar list");
+                    //typeof(VRCPlayer).GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.PropertyType == typeof(string)).Do(p => MelonLogger.Log(ConsoleColor.Blue, p.Name + "=" + (string)p.GetValue(avatar.transform.root.GetComponentInChildren<VRCPlayer>(), null)));
                     MelonLogger.Log(ConsoleColor.Green, $"Added {avatar.transform.root.GetComponentInChildren<VRCPlayer>().prop_String_0}");
                 }
             }
